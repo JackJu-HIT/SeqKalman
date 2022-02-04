@@ -1,6 +1,6 @@
-%@Function£º±¾³ÌĞòÖ÷ÒªÊµÏÖĞò¹ß¿¨¶ûÂüÂË²¨Ëã·¨
-%@Author£ºJuchunyu
-%@Date£º2022-2-4 09:18:00
+%@Functionï¼šæœ¬ç¨‹åºä¸»è¦å®ç°åºæƒ¯å¡å°”æ›¼æ»¤æ³¢ç®—æ³•
+%@Authorï¼šJuchunyu
+%@Dateï¼š2022-2-4 09:18:00
 function [pRes kRes x] =SeqKalmanFilter(F,H,Q,v,R,P0,x0,y,meassureNum,x)
     pRes = [];
     kRes = [];
@@ -9,7 +9,7 @@ function [pRes kRes x] =SeqKalmanFilter(F,H,Q,v,R,P0,x0,y,meassureNum,x)
     P = F*P0*F'+Q
     X = F*x0
     for i=1:meassureNum
-        %²ÎÊı³õÊ¼»¯´¦Àí
+        %å‚æ•°åˆå§‹åŒ–å¤„ç†
         if i==1
             p=P(1,1);
         else
@@ -19,16 +19,16 @@ function [pRes kRes x] =SeqKalmanFilter(F,H,Q,v,R,P0,x0,y,meassureNum,x)
         if(i>mh)
             h=0;
         else
-            h=H(i,1) 
+            h=H(i,:) 
         end
         r= R(i,i)
-        %¼ÆËã²âÁ¿¸üĞÂ
-        k = p*h/(h*p*h'+r)%¿¨¶ûÂüÔöÒæ
-        kRes = [kRes;k];%¼ÇÂ¼¿¨¶ûÂüÔöÒækµÄ¼ÆËã½á¹û
-        xPredict = x(i)+k*(y(i,:)-h*x(i,1))%¿¨¶ûÂüÔ¤²â³öµÄ×´Ì¬
+        %è®¡ç®—æµ‹é‡æ›´æ–°
+        k = p*h/(h*p*h'+r)%å¡å°”æ›¼å¢ç›Š
+        kRes = [kRes;k];%è®°å½•å¡å°”æ›¼å¢ç›Škçš„è®¡ç®—ç»“æœ
+        xPredict = x(i)+k*(y(i,:)-h*x(i,1))%å¡å°”æ›¼é¢„æµ‹å‡ºçš„çŠ¶æ€
         x=[x;xPredict]
         [M,N] = size(k*h)
-        P_ = (ones(M,N)-k*h)*p   %¿¨¶ûÂüÊä³öµÄĞ­·½²î
-        pRes=[pRes;P_];%¼ÇÂ¼¿¨¶ûÂüĞ­·½²îµÄ¼ÆËã½á¹û
+        P_ = (ones(M,N)-k*h)*p   %å¡å°”æ›¼è¾“å‡ºçš„åæ–¹å·®
+        pRes=[pRes;P_];%è®°å½•å¡å°”æ›¼åæ–¹å·®çš„è®¡ç®—ç»“æœ
     end
 end
